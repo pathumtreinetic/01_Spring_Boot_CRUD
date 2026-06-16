@@ -1,0 +1,15 @@
+server:
+  port: 8801
+
+spring:
+  application:
+    name: 01_learn
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/basic
+    username: root
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: update
