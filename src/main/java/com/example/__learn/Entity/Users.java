@@ -1,5 +1,6 @@
 package com.example.__learn.Entity;
 
+import com.example.__learn.dto.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,8 +12,20 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
     private String city;
+    private String password;
+    private Role role;
+
+    public Users() {
+    }
+
+    public Users(Long id, String name, String city, String password, Role role) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+        this.password = password;
+        this.role = role;
+    }
 
     public Long getId() {
         return id;
@@ -38,12 +51,19 @@ public class Users {
         this.city = city;
     }
 
-    public Users(Long id, String name, String city) {
-        this.id = id;
-        this.name = name;
-        this.city = city;
+    public String getPassword() {
+        return password;
     }
 
-    public Users() {
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

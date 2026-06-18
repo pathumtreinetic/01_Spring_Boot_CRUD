@@ -19,20 +19,6 @@ public class UserController {
         this.usersService = usersService;
     }
 
-    @PostMapping
-    public ResponseEntity<ApiResponse> add(@RequestBody Users user){
-        try {
-            if(usersService.UserNameAlreadyExist(user)){
-                 return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse<>("This Username Already Exist There", null));
-            }
-
-            ApiResponse res = usersService.addUser(user);
-            return ResponseEntity.ok(res);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAll(){
         List<Users> userList = usersService.getAll();

@@ -3,6 +3,7 @@ package com.example.__learn.service;
 import com.example.__learn.dto.ApiResponse;
 import com.example.__learn.Entity.Users;
 import com.example.__learn.repository.UsersRepo;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Service
 public class UsersService {
     private UsersRepo usersRepo;
+    private  final BCryptPasswordEncoder cryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
     public UsersService(UsersRepo usersRepo) {
         this.usersRepo = usersRepo;
@@ -23,6 +25,7 @@ public class UsersService {
     }
 
     public ApiResponse addUser(Users user){
+        user.setPassword(cryptPasswordEncoder.encode(user.getPassword()));
         Users res = usersRepo.save(user);
         return new ApiResponse<>("Successfully add user.", res);
     }
