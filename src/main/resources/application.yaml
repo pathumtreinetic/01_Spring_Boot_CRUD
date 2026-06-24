@@ -16,4 +16,5 @@ spring:
 
 jwt:
   secret: OPKzNJRJA9WbKIjQ4ymEOFsRHjq3F9Cr1Ve2EQBdGPo
-  expiration: 3600000
+  expiration: 60000
+  refreshTokenExpire: 86400000

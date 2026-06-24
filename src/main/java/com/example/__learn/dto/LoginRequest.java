@@ -1,23 +1,29 @@
 package com.example.__learn.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class LoginRequest {
-    private String uname;
+    @NotBlank(message = "Email must required.")
+    @Email(message = "Invalid email type")
+    private String email;
+    @NotBlank(message = "Password must required.")
     private String password;
 
     public LoginRequest() {
     }
 
-    public LoginRequest(String uname, String password) {
-        this.uname = uname;
+    public LoginRequest(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
-    public String getUname() {
-        return uname;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUname(String uname) {
-        this.uname = uname;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

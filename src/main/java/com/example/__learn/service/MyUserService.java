@@ -23,16 +23,15 @@ public class MyUserService implements UserDetailsService {
     //                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUname(), loginRequest.getPassword()));
     // Output give as user details
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("Username: "+ username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         //check is this user valid or not?
-        Users users = usersRepo.findByName(username)
+        Users users = usersRepo.findByEmail(email)
                 .orElseThrow(()-> new BadCredentialsException("This User Not Found."));
 
         //return the username & hash password
         return User.builder()
-                .username(users.getName())
+                .username(users.getEmail())
                 .password(users.getPassword())
                 .authorities(users.getRole().toString())
                 .build();

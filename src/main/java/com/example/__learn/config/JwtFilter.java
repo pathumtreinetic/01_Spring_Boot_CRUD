@@ -30,10 +30,10 @@ public class JwtFilter extends OncePerRequestFilter {
         if(header != null && header.startsWith("Bearer ")){
             String splitToken = header.substring(7);
 
-            String username = jwtService.extractUserName(splitToken);
+            String userEmail = jwtService.extractUserEmail(splitToken);
 
-            if(!username.isBlank()){
-                UserDetails userDetails = myUserService.loadUserByUsername(username);
+            if(!userEmail.isBlank()){
+                UserDetails userDetails = myUserService.loadUserByUsername(userEmail);
 
                 if(jwtService.validateToken(splitToken, userDetails)){
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
