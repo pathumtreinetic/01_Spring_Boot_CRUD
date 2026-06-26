@@ -1,20 +1,17 @@
 package com.example.__learn.Entity;
 
 import com.example.__learn.dto.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document("users")
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     @NotBlank(message = "Name is required")
     private String name;
     @NotBlank(message = "City is required")
@@ -31,7 +28,7 @@ public class Users {
     public Users() {
     }
 
-    public Users(Long id, String name, String city, String email, String password, Role role) {
+    public Users(String id, String name, String city, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.city = city;
@@ -40,11 +37,11 @@ public class Users {
         this.role = role;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

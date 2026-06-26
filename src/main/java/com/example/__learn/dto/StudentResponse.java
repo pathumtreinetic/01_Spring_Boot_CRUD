@@ -1,13 +1,17 @@
 package com.example.__learn.dto;
 
 public class StudentResponse {
-    private Long id;
+    private String id;
     private String name;
     private String city;
     private String email;
     private Role role;
 
-    public StudentResponse(Long id, String name, String city, String email, Role role) {
+
+    public StudentResponse() {
+    }
+
+    public StudentResponse(String id, String name, String city, String email, Role role) {
         this.id = id;
         this.name = name;
         this.city = city;
@@ -15,14 +19,11 @@ public class StudentResponse {
         this.role = role;
     }
 
-    public StudentResponse() {
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -2,11 +2,13 @@ package com.example.__learn.service;
 
 import com.example.__learn.dto.ApiResponse;
 import com.example.__learn.Entity.Users;
+import com.example.__learn.dto.Role;
 import com.example.__learn.dto.StudentResponse;
 import com.example.__learn.repository.UsersRepo;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +16,24 @@ import java.util.List;
 @Service
 public class UsersService {
     private UsersRepo usersRepo;
+    private CartService cartService;
+
     private  final BCryptPasswordEncoder cryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
-    public UsersService(UsersRepo usersRepo) {
+    public UsersService(UsersRepo usersRepo, CartService cartService) {
         this.usersRepo = usersRepo;
+        this.cartService = cartService;
     }
 
 
+    @Transactional
     public ApiResponse addUser(Users user){
         user.setPassword(cryptPasswordEncoder.encode(user.getPassword()));
         Users res = usersRepo.save(user);
+
+        if(user.getRole().equals(Role.user)){
+            cartService.newCart(res.getId());
+        }
         return new ApiResponse<>("Successfully add user.", res);
     }
 
@@ -49,7 +59,7 @@ public class UsersService {
         return false;
     }
 
-    public StudentResponse getStudent(long id) {
+    public StudentResponse getStudent(String id) {
         Users user = usersRepo.findById(id)
                 .orElseThrow(()-> new BadCredentialsException("This User Not Found."));
         StudentResponse response = new StudentResponse();

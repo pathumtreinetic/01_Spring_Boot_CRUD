@@ -1,43 +1,41 @@
 package com.example.__learn.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
-@Entity
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document("products")
 public class Products {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+    private String id;
+    private String productName;
     private int quantity;
-    private double price;
+    private double unitPrice;
 
     public Products() {
     }
 
-    public Products(Long id, String name, int quantity, double price) {
+    public Products(String id, String productName, int quantity, double unitPrice) {
         this.id = id;
-        this.name = name;
+        this.productName = productName;
         this.quantity = quantity;
-        this.price = price;
+        this.unitPrice = unitPrice;
     }
 
-    public Long getId() {
+    public String getProductId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setProductId(String productId) {
+        this.id = productId;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public int getQuantity() {
@@ -48,11 +46,11 @@ public class Products {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
+    public double getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
     }
 }

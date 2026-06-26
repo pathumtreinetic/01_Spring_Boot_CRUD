@@ -74,7 +74,7 @@ public class AuthService {
 
             Map<String, String> activeRes = new HashMap<>();
             if(jwtService.validateToken(refreshToken, userDetails)){
-                String activeToken =  jwtService.generateRefreshToken(userEmail,role );
+                String activeToken =  jwtService.generateToken(userEmail,role );
                 activeRes.put("activeToken", activeToken);
             }
 

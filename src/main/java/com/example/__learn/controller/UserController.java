@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<StudentResponse>> getStudent(@PathVariable long id){
+    public ResponseEntity<ApiResponse<StudentResponse>> getStudent(@PathVariable String id){
         StudentResponse studentResponse = usersService.getStudent(id);
         return ResponseEntity.ok(new ApiResponse<StudentResponse>("Student details fetched success.", studentResponse));
     }

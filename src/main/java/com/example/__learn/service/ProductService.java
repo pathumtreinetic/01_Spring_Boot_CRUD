@@ -17,7 +17,7 @@ public class ProductService {
     }
 
     public boolean productNameExist(Products product){
-        if(productRepo.existsByName(product.getName())){
+        if(productRepo.existsByProductName(product.getProductName())){
             return true;
         }
         return false;

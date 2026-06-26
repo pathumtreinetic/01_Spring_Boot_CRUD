@@ -1,0 +1,27 @@
+#server:
+#  port: 8801
+#
+#spring:
+#  application:
+#    name: 01_learn
+#  mongodb:
+#      uri: mongodb+srv://annotationsdiscussionsinfo_db_user:uAqHrbsBWqdfM9c6@cluster0.5r01mbw.mongodb.net/basic?retryWrites=true&w=majority
+#
+#jwt:
+#  secret: OPKzNJRJA9WbKIjQ4ymEOFsRHjq3F9Cr1Ve2EQBdGPo
+#  expiration: 60000
+#  refreshTokenExpire: 86400000
+
+server:
+  port: 8801
+
+spring:
+  application:
+    name: 01_learn
+  mongodb:
+    uri: mongodb://127.0.0.1:27017/basic
+
+jwt:
+  secret: OPKzNJRJA9WbKIjQ4ymEOFsRHjq3F9Cr1Ve2EQBdGPo
+  expiration: 600000
+  refreshTokenExpire: 86400000
