@@ -11,6 +11,7 @@ import com.example.__learn.repository.CartRepo;
 import com.example.__learn.repository.ProductRepo;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class CartService {
         return new ApiResponse<Carts>("Success created cart.",cart);
     }
 
+    @Transactional
     public ApiResponse<CartItemDto> addProductToCart(String cartId, AddItemToCartRequest cartRequest) {
         Carts findCart = cartRepo.findById(cartId)
                 .orElseThrow(()-> new CartNotFoundException("This Cart cartId:"+ cartId+" not found."));

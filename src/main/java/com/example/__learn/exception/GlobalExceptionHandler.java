@@ -19,5 +19,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(ex.getMessage(), null));
     }
 
+    @ExceptionHandler(ThisUserNotValidRequest.class)
+    public ResponseEntity<ApiResponse> handleThisUserNotValidRequest(ThisUserNotValidRequest ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(ex.getMessage(), null));
+    }
 
 }

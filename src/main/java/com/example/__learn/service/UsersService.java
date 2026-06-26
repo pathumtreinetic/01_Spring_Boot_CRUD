@@ -2,8 +2,10 @@ package com.example.__learn.service;
 
 import com.example.__learn.dto.ApiResponse;
 import com.example.__learn.Entity.Users;
+import com.example.__learn.dto.Profile;
 import com.example.__learn.dto.Role;
 import com.example.__learn.dto.StudentResponse;
+import com.example.__learn.exception.ThisUserNotValidRequest;
 import com.example.__learn.repository.UsersRepo;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,12 +19,14 @@ import java.util.List;
 public class UsersService {
     private UsersRepo usersRepo;
     private CartService cartService;
+    private AuthService authService;
 
     private  final BCryptPasswordEncoder cryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
-    public UsersService(UsersRepo usersRepo, CartService cartService) {
+    public UsersService(UsersRepo usersRepo, CartService cartService, AuthService authService) {
         this.usersRepo = usersRepo;
         this.cartService = cartService;
+        this.authService = authService;
     }
 
 
@@ -31,7 +35,7 @@ public class UsersService {
         user.setPassword(cryptPasswordEncoder.encode(user.getPassword()));
         Users res = usersRepo.save(user);
 
-        if(user.getRole().equals(Role.user)){
+        if(user.getRole().equals(Role.USER)){
             cartService.newCart(res.getId());
         }
         return new ApiResponse<>("Successfully add user.", res);
@@ -60,6 +64,11 @@ public class UsersService {
     }
 
     public StudentResponse getStudent(String id) {
+
+        if (!validUserRequest(id)){
+            throw new ThisUserNotValidRequest("This user not valid for thi request.");
+        }
+
         Users user = usersRepo.findById(id)
                 .orElseThrow(()-> new BadCredentialsException("This User Not Found."));
         StudentResponse response = new StudentResponse();
@@ -68,8 +77,20 @@ public class UsersService {
         response.setCity(user.getCity());
         response.setEmail(user.getEmail());
         response.setName(user.getName());
-
         return response;
 
+
+    }
+
+    public  Boolean validUserRequest(String id){
+        Users user = usersRepo.findById(id)
+                .orElseThrow(()-> new BadCredentialsException("This User Not Found."));
+
+        ApiResponse<Profile> profile = authService.viewProfile();
+        if(profile.getData().getEmail().equals(user.getEmail())){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

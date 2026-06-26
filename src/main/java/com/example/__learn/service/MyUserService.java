@@ -18,10 +18,6 @@ public class MyUserService implements UserDetailsService {
         this.usersRepo = usersRepo;
     }
 
-    // input come from:
-    // authService authenticationManager
-    //                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUname(), loginRequest.getPassword()));
-    // Output give as user details
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
@@ -30,10 +26,11 @@ public class MyUserService implements UserDetailsService {
                 .orElseThrow(()-> new BadCredentialsException("This User Not Found."));
 
         //return the username & hash password
-        return User.builder()
+         User u = (User) User.builder()
                 .username(users.getEmail())
                 .password(users.getPassword())
                 .authorities(users.getRole().toString())
                 .build();
+        return u;
     }
 }

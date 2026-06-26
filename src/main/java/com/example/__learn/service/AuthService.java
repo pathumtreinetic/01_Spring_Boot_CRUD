@@ -46,7 +46,6 @@ public class AuthService {
                     .findFirst()
                     .get()
                     .getAuthority();
-
             String activeToken = jwtService.generateToken(userDetails.getUsername(), role);
             String refreshToken = jwtService.generateRefreshToken(userDetails.getUsername(), role);
             Map<String, String> data = new HashMap<>();

@@ -6,6 +6,7 @@ import com.example.__learn.dto.StudentResponse;
 import com.example.__learn.service.UsersService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class UserController {
         this.usersService = usersService;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAll(){
         List<StudentResponse> userList = usersService.getAll();
@@ -29,6 +31,7 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>("Users Fetched Success.", userList));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<StudentResponse>> getStudent(@PathVariable String id){
         StudentResponse studentResponse = usersService.getStudent(id);
