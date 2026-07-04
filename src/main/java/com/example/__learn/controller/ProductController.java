@@ -42,4 +42,25 @@ public class ProductController {
 
         return ResponseEntity.ok(new ApiResponse<>("Products Fetched Success.", productList));
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<ApiResponse> filterByName(@RequestParam String name) {
+        List<Products> productsList = productService.filterByName(name);
+        return ResponseEntity.ok(
+                new ApiResponse("Products fetched successfully", productsList)
+        );
+    }
+    @GetMapping("/filter/price")
+    public ResponseEntity<ApiResponse<Products>> filterByPrice(
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice
+    ) {
+        System.out.println("min: "+minPrice+" max: "+maxPrice);
+        List<Products> productsList = productService.filterByPrice(minPrice, maxPrice);
+
+        return ResponseEntity.ok(
+                new ApiResponse("Products filtered successfully", productsList)
+        );
+    }
+
 }

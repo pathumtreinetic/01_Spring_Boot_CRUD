@@ -5,7 +5,7 @@ import com.example.__learn.Entity.Users;
 import com.example.__learn.dto.Profile;
 import com.example.__learn.dto.Role;
 import com.example.__learn.dto.StudentResponse;
-import com.example.__learn.exception.ThisUserNotValidRequest;
+import com.example.__learn.exception.ThisUserNotValidRequestException;
 import com.example.__learn.repository.UsersRepo;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -66,7 +66,7 @@ public class UsersService {
     public StudentResponse getStudent(String id) {
 
         if (!validUserRequest(id)){
-            throw new ThisUserNotValidRequest("This user not valid for thi request.");
+            throw new ThisUserNotValidRequestException("This user not valid for thi request.");
         }
 
         Users user = usersRepo.findById(id)

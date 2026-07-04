@@ -11,6 +11,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,12 +44,23 @@ public class AuthController {
 
         ApiResponse<Map<String, String>> loginRes = authService.login(loginRequest);
 
-        Cookie cookie = new Cookie("RefreshToken", loginRes.getData().get("refreshToken"));
-        cookie.setPath("/api/auth/refresh");
-        cookie.setHttpOnly((true));
-        cookie.setSecure(true);
-        cookie.setMaxAge(3600 *24 *7);
-        response.addCookie(cookie);
+//        Cookie cookie = new Cookie("refreshToken", loginRes.getData().get("refreshToken"));
+//        cookie.setPath("/");
+//        cookie.setHttpOnly((true));
+//        cookie.setSecure(false);
+//        cookie.setS("None"),
+//        cookie.setMaxAge(3600 *24 *7);
+//        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from("refreshToken",
+                        loginRes.getData().get("refreshToken"))
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .sameSite("None")
+                .maxAge(7 * 24 * 60 * 60)
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
 
         Map<String, String> data = loginRes.getData();
         data.remove("refreshToken");
@@ -75,8 +87,8 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse> refresh(@RequestBody Map<String, String> refreshToken){
-        Map<String, String> activeToken = authService.refresh(refreshToken.get("refreshToken"));
+    public ResponseEntity<?> refresh(@CookieValue("refreshToken") String refreshToken) {
+        Map<String, String> activeToken = authService.refresh(refreshToken);
         return ResponseEntity.ok(new ApiResponse<>("okay", activeToken));
     }
 

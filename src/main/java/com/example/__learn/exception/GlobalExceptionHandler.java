@@ -19,9 +19,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(ex.getMessage(), null));
     }
 
-    @ExceptionHandler(ThisUserNotValidRequest.class)
-    public ResponseEntity<ApiResponse> handleThisUserNotValidRequest(ThisUserNotValidRequest ex){
+    @ExceptionHandler(ThisUserNotValidRequestException.class)
+    public ResponseEntity<ApiResponse> handleThisUserNotValidRequest(ThisUserNotValidRequestException ex){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(ex.getMessage(), null));
     }
 
+    @ExceptionHandler(TokenExpiredOrInvalidException.class)
+    public ResponseEntity<ApiResponse> handleTokenExpired(TokenExpiredOrInvalidException ex){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(ex.getMessage(), null));
+    }
 }
